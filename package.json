@@ -1,0 +1,14 @@
+{
+  "name": "skipti",
+  "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/reinseth/skipti.git"
+  },
+  "author": "Gunnar A. Reinseth",
+  "license": "ISC",
+  "homepage": "https://github.com/reinseth/skipti",
+  "devDependencies": {
+    "shadow-cljs": "^2.28.16"
+  }
+}
