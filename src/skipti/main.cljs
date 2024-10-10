@@ -2,9 +2,11 @@
   (:require [cljs.core.match :refer-macros [match]]
             [clojure.edn :as edn]
             [clojure.walk :as walk]
+            [m1p.core :as m1p]
             [replicant.dom :as replicant]
-            [skipti.squad-view :refer [prep-squad-view SquadView]])
-  (:import [goog.async Debouncer]))
+            [skipti.locale :refer [browser-languages normalize-langs]]
+            [skipti.squad-view :as squad :refer [prep-squad-view SquadView]])
+  (:import (goog.async Debouncer)))
 
 ;; Source: https://martinklepsch.org/posts/simple-debouncing-in-clojurescript.html
 (defn debounce [f interval]
@@ -21,6 +23,14 @@
   (edn/read-string (or (js/localStorage.getItem "skipti") "{}")))
 
 (defonce store (atom (read-from-local-storage)))
+
+(def dictionaries
+  {:en (m1p/prepare-dictionary
+        [(:en squad/messages)])
+   :nb (m1p/prepare-dictionary
+        [(:nb squad/messages)])})
+
+(def supported-locales (set (keys dictionaries)))
 
 (defn interpolate-dom-values [dom-event action]
   (walk/postwalk
@@ -50,13 +60,21 @@
   (when actions
     (handle-actions (map #(interpolate-dom-values js-event %) actions))))
 
+(defn lookup-locale [saved-locale]
+  (or (supported-locales saved-locale)
+      (first (filter supported-locales
+                     (normalize-langs (browser-languages))))
+      :en))
+
 (defn render
   ([]
    (render @store))
   ([state]
    (replicant/render
     (js/document.getElementById "root")
-    (SquadView (prep-squad-view state)))))
+    (m1p/interpolate (SquadView (prep-squad-view state))
+                     {:dictionaries
+                      {:i18n (dictionaries (lookup-locale (:locale state)))}}))))
 
 (defn ^:export init []
   (add-watch store ::me (fn [_ _ _ state]

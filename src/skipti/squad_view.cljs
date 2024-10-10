@@ -2,13 +2,24 @@
   (:require [clojure.string :as str]
             [skipti.components :refer [Pill]]))
 
+(def messages
+  {:en
+   #:squad
+   {:title "Squad"
+    :input.placeholder "Add player..."}
+
+   :nb
+   #:squad
+   {:title "Tropp"
+    :input.placeholder "Legg til spiller..."}})
+
 (defn SquadView [{:keys [add-player
                          empty-input?
                          input
                          players]}]
   [:main
    [:header
-    [:h1 "Squad"]]
+    [:h1 [:i18n :squad/title]]]
    [:section.col
     (for [player players]
       (Pill player))
@@ -25,7 +36,7 @@
 
      :input
      {:type "text"
-      :placeholder "Add player..."
+      :placeholder [:i18n :squad/input.placeholder]
       :value (:squad/input state)
       :on {:input [[:assoc-in [:squad/input] :dom-event.target/value]]}}
 
