@@ -1,6 +1,7 @@
 {:paths ["src" "test" "dev"]
  :deps {binaryage/devtools {:mvn/version "1.0.7"}
         no.cjohansen/m1p {:mvn/version "2024.03.15"}
+        no.cjohansen/phosphor-clj {:mvn/version "2024.03.03"}
         no.cjohansen/replicant {:mvn/version "0.2024.10.07"}
         org.clojure/clojure {:mvn/version "1.11.3"}
         org.clojure/clojurescript {:mvn/version "1.11.54"}

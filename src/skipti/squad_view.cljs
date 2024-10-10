@@ -1,6 +1,6 @@
 (ns skipti.squad-view
   (:require [clojure.string :as str]
-            [skipti.components :refer [Pill]]))
+            [skipti.components :refer [Icon Pill]]))
 
 (def messages
   {:en
@@ -30,7 +30,7 @@
     [:form.new-player-form {:class (when-not empty-input? "filled")
                             :on {:submit add-player}}
      [:input.input input]
-     [:button {:type "submit"} "+"]]]])
+     [:button {:type "submit"} (Icon :plus)]]]])
 
 (defn prep-squad-view [state]
   (let [squad (into #{} (:squad/players state))]
