@@ -84,3 +84,13 @@ header {
     visibility: hidden;
   }
 }
+
+.pill {
+  display: flex;
+  gap: var(--s-xs);
+  padding: var(--s-xs) var(--s-md);
+  border-radius: var(--s-md);
+  align-items: center;
+  white-space: nowrap;
+  background: oklch(from var(--fg) l c h / .15);
+}

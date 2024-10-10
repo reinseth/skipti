@@ -1,5 +1,6 @@
 (ns skipti.squad-view
-  (:require [clojure.string :as str]))
+  (:require [clojure.string :as str]
+            [skipti.components :refer [Pill]]))
 
 (defn SquadView [{:keys [add-player
                          empty-input?
@@ -10,7 +11,7 @@
     [:h1 "Squad"]]
    [:section.col
     (for [player players]
-      [:div {:key player} player])
+      (Pill player))
     [:form.new-player-form {:class (when-not empty-input? "filled")
                             :on {:submit add-player}}
      [:input.input input]
@@ -19,7 +20,8 @@
 (defn prep-squad-view [state]
   (let [squad (into #{} (:squad/players state))]
     {:players
-     (sort squad)
+     (->> (sort squad)
+          (map (fn [x] {:key x :label x})))
 
      :input
      {:type "text"
