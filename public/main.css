@@ -94,3 +94,10 @@ header {
   white-space: nowrap;
   background: oklch(from var(--fg) l c h / .15);
 }
+
+.link-btn {
+  color: var(--secondary);
+  display: flex;
+  align-items: center;
+  gap: var(--s-xs);
+}

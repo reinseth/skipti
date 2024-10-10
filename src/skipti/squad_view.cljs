@@ -5,21 +5,25 @@
 (def messages
   {:en
    #:squad
-   {:title "Squad"
-    :input.placeholder "Add player..."}
+   {:edit "Edit"
+    :input.placeholder "Add player..."
+    :title "Squad"}
 
    :nb
    #:squad
-   {:title "Tropp"
-    :input.placeholder "Legg til spiller..."}})
+   {:edit "Rediger"
+    :input.placeholder "Legg til spiller..."
+    :title "Tropp"}})
 
 (defn SquadView [{:keys [add-player
+                         edit-squad
                          empty-input?
                          input
                          players]}]
   [:main
    [:header
-    [:h1 [:i18n :squad/title]]]
+    [:h1 [:i18n :squad/title]]
+    [:button.link-btn {:on {:click edit-squad}} [:i18n :squad/edit]]]
    [:section.col
     (for [player players]
       (Pill player))
@@ -48,4 +52,7 @@
        (if (str/blank? input)
          []
          [[:assoc-in [:squad/players] (conj squad input)]
-          [:assoc-in [:squad/input] ""]]))}))
+          [:assoc-in [:squad/input] ""]]))
+
+     :edit-squad
+     [[:assoc-in [:view] :edit-squad]]}))
