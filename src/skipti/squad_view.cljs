@@ -2,15 +2,17 @@
   (:require [clojure.string :as str]))
 
 (defn SquadView [{:keys [add-player
+                         empty-input?
                          input
                          players]}]
   [:main
    [:header
     [:h1 "Squad"]]
-   [:section
+   [:section.col
     (for [player players]
       [:div {:key player} player])
-    [:form {:on {:submit add-player}}
+    [:form.new-player-form {:class (when-not empty-input? "filled")
+                            :on {:submit add-player}}
      [:input.input input]
      [:button {:type "submit"} "+"]]]])
 
@@ -24,6 +26,9 @@
       :placeholder "Add player..."
       :value (:squad/input state)
       :on {:input [[:assoc-in [:squad/input] :dom-event.target/value]]}}
+
+     :empty-input?
+     (str/blank? (:squad/input state))
      
      :add-player
      (let [input (str/trim (:squad/input state ""))]
