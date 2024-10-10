@@ -1,12 +1,18 @@
 {:deps true
 
  :builds
- {:app {:target :browser
-        :output-dir "build/js"
-        :asset-path "/js"
-        :modules {:main {:init-fn skipti.main/init}}
-        :devtools {:repl-pprint true
-                   :preloads [dev]}}}
+ {:app
+  {:target :browser
+   :output-dir "build/js"
+   :asset-path "/js"
+   :modules {:main {:init-fn skipti.main/init}}
+   :devtools {:repl-pprint true
+              :preloads [dev]}}
+
+  :test
+  {:target :node-test
+   :output-to "build/test/node-test.js"
+   :autorun true}}
 
  :dev-http
  {9090 {:roots ["build" "public"]}}}
