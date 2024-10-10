@@ -1,6 +1,7 @@
 :root {
   --primary: #487b41;
   --secondary: #5889df;
+  --tertiary: #ad2e2c;
   --bg: #161B22;
   --fg: #d2d7df;
   --border: #363c43;
@@ -95,9 +96,29 @@ header {
   background: oklch(from var(--fg) l c h / .15);
 }
 
+.pill-icon {
+  display: flex;
+}
+
+.pill:has(.pill-icon) {
+  padding-left: var(--s-xs);
+}
+
 .link-btn {
   color: var(--secondary);
   display: flex;
   align-items: center;
   gap: var(--s-xs);
+}
+
+.color-success {
+  color: var(--primary);
+}
+
+.color-info {
+  color: var(--secondary);
+}
+
+.color-danger {
+  color: var(--tertiary);
 }

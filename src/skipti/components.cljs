@@ -2,7 +2,8 @@
   (:require [phosphor.icons :as i]))
 
 (def icons
-  {:plus (i/icon :phosphor.regular/plus)})
+  {:minus-circle.fill (i/icon :phosphor.fill/minus-circle)
+   :plus (i/icon :phosphor.regular/plus)})
 
 (defn size-to-css-value [size]
   (case (or size :md)
@@ -26,14 +27,19 @@
           (update 1 merge (dissoc props :name :size :style)))
       (throw (js/Error. (str "Icon " name " has not been configured"))))))
 
-(defn Pill [{:keys [key label on-click]}]
+(defn Pill [{:keys [key label icon icon-action on-click]}]
   [:div.pill
    {:replicant/key key
     :style {:opacity 1
-            :transition "all 0.25s"}
+            :transition "opacity 0.25s"}
     :replicant/mounting {:style {:opacity 0}}
     :replicant/unmounting {:style {:opacity 0}}
     :role (when on-click "button")
     :tab-index (when on-click "0")
     :on {:click on-click}}
+   (when icon
+     [:div.pill-icon {:role (when icon-action "button")
+                      :tab-index (when icon-action 0)
+                      :on {:click icon-action}}
+      (Icon icon)])
    [:span.pill-label label]])

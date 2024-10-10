@@ -25,7 +25,12 @@
   (let [squad (into #{} (:squad/players state))]
     {:players
      (->> (sort squad)
-          (map (fn [x] {:key x :label x})))
+          (map (fn [x] {:key x
+                        :label x
+                        :icon {:name :minus-circle.fill
+                               :class :color-danger}
+                        :icon-action
+                        [[:assoc-in [:squad/players] (disj (:squad/players state) x)]]})))
 
      :finish-edit
      [[:assoc-in [:view] :squad]]}))
