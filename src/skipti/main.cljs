@@ -1,10 +1,26 @@
 (ns skipti.main
   (:require [cljs.core.match :refer-macros [match]]
+            [clojure.edn :as edn]
             [clojure.walk :as walk]
             [replicant.dom :as replicant]
-            [skipti.squad-view :refer [prep-squad-view SquadView]]))
+            [skipti.squad-view :refer [prep-squad-view SquadView]])
+  (:import [goog.async Debouncer]))
 
-(defonce store (atom {}))
+;; Source: https://martinklepsch.org/posts/simple-debouncing-in-clojurescript.html
+(defn debounce [f interval]
+  (let [dbnc (Debouncer. f interval)]
+    ;; We use apply here to support functions of various arities
+    (fn [& args] (.apply (.-fire dbnc) dbnc (to-array args)))))
+
+(defn write-to-local-storage [state]
+  (js/localStorage.setItem "skipti" state))
+
+(def write-to-local-storage-debounced (debounce write-to-local-storage 500))
+
+(defn read-from-local-storage []
+  (edn/read-string (or (js/localStorage.getItem "skipti") "{}")))
+
+(defonce store (atom (read-from-local-storage)))
 
 (defn interpolate-dom-values [dom-event action]
   (walk/postwalk
@@ -44,7 +60,8 @@
 
 (defn ^:export init []
   (add-watch store ::me (fn [_ _ _ state]
-                          (render state)))
+                          (render state)
+                          (write-to-local-storage-debounced state)))
   (replicant/set-dispatch! handle-dom-event)
   (render))
 
