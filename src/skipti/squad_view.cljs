@@ -7,22 +7,25 @@
    #:squad
    {:edit "Edit"
     :input.placeholder "Add player..."
-    :title "Squad"}
+    :title "Squad"
+    :title-selected [:fn/str "Squad ({{:n}})"]}
 
    :nb
    #:squad
    {:edit "Rediger"
     :input.placeholder "Legg til spiller..."
-    :title "Tropp"}})
+    :title "Tropp"
+    :title-selected [:fn/str "Tropp ({{:n}})"]}})
 
 (defn SquadView [{:keys [add-player
                          edit-squad
                          empty-input?
                          input
-                         players]}]
+                         players
+                         title]}]
   [:main
    [:header
-    [:h1 [:i18n :squad/title]]
+    [:h1 title]
     [:button.link-btn {:on {:click edit-squad}} [:i18n :squad/edit]]]
    [:section.col
     (for [player players]
@@ -33,10 +36,24 @@
      [:button {:type "submit"} (Icon :plus)]]]])
 
 (defn prep-squad-view [state]
-  (let [squad (into #{} (:squad/players state))]
+  (let [squad (into #{} (:squad/players state))
+        players (into #{} (:match/players state))]
     {:players
      (->> (sort squad)
-          (map (fn [x] {:key x :label x})))
+          (map (fn [x]
+                 {:key x
+                  :label x
+                  :color (when (players x) :medium)
+                  :icon (if (players x)
+                          {:name :check-circle.fill
+                           :class :color-success}
+                          {:name :circle
+                           :class :subtle-md})
+                  :icon-pos :end
+                  :on-click
+                  [[:assoc-in [:match/players] (if (players x)
+                                                 (disj players x)
+                                                 (conj players x))]]})))
 
      :input
      {:type "text"
@@ -55,4 +72,9 @@
           [:assoc-in [:squad/input] ""]]))
 
      :edit-squad
-     [[:assoc-in [:view] :edit-squad]]}))
+     [[:assoc-in [:view] :edit-squad]]
+
+     :title
+     (if (seq players)
+       [:i18n :squad/title-selected {:n (count players)}]
+       [:i18n :squad/title])}))

@@ -93,15 +93,37 @@ header {
   border-radius: var(--s-md);
   align-items: center;
   white-space: nowrap;
+}
+
+.pill, .pill-soft {
   background: oklch(from var(--fg) l c h / .15);
+}
+
+.pill-medium {
+  background: oklch(from var(--fg) l c h / .25);
+}
+
+.pill-strong {
+  background: oklch(from var(--fg) l c h / .40);
 }
 
 .pill-icon {
   display: flex;
 }
 
-.pill:has(.pill-icon) {
+.pill-icon-start {
   padding-left: var(--s-xs);
+}
+
+.pill-icon-end {
+  padding-right: var(--s-xs)
+}
+
+.pill-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-right: auto;
 }
 
 .link-btn {
@@ -121,4 +143,12 @@ header {
 
 .color-danger {
   color: var(--tertiary);
+}
+
+.subtle {
+  color: oklch(from var(--fg) l c h / .50);
+}
+
+.subtle-md {
+  color: oklch(from var(--fg) l c h / .25);
 }

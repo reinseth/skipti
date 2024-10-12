@@ -16,4 +16,14 @@
     (is (= (:add-player (sut/prep-squad-view {}))
            []))
     (is (= (:add-player (sut/prep-squad-view {:squad/input " "}))
-           []))))
+           [])))
+
+  (testing "toggle player selection actions"
+    (let [actions (->> (sut/prep-squad-view
+                        {:squad/players #{"Anton" "Peter"}
+                         :match/players #{"Peter"}})
+                       :players
+                       (map (juxt :key :on-click)))]
+      (is (= actions
+             [["Anton" [[:assoc-in [:match/players] #{"Anton" "Peter"}]]]
+              ["Peter" [[:assoc-in [:match/players] #{}]]]])))))
