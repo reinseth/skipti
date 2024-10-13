@@ -22,7 +22,8 @@
       (Pill player))]])
 
 (defn prep-edit-squad-view [state]
-  (let [squad (into #{} (:squad/players state))]
+  (let [squad (into #{} (:squad/players state))
+        match (into #{} (:match/players state))]
     {:players
      (->> (sort squad)
           (map (fn [x] {:key x
@@ -30,7 +31,8 @@
                         :icon {:name :minus-circle.fill
                                :class :color-danger}
                         :icon-action
-                        [[:assoc-in [:squad/players] (disj (:squad/players state) x)]]})))
+                        [[:assoc-in [:squad/players] (disj squad x)]
+                         [:assoc-in [:match/players] (disj match x)]]})))
 
      :finish-edit
      [[:assoc-in [:view] :squad]]}))
