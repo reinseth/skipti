@@ -26,4 +26,10 @@
                        (map (juxt :key :on-click)))]
       (is (= actions
              [["Anton" [[:assoc-in [:match/players] #{"Anton" "Peter"}]]]
-              ["Peter" [[:assoc-in [:match/players] #{}]]]])))))
+              ["Peter" [[:assoc-in [:match/players] #{}]]]]))))
+
+  (testing "new match action"
+    (is (nil? (:new-match (sut/prep-squad-view {}))))
+    (is (= (:new-match (sut/prep-squad-view {:match/players #{"Jenny"}}))
+           [[:assoc-in [:view] :match]
+            [:assoc-in [:match/events] []]]))))

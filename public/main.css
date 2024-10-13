@@ -36,6 +36,14 @@ header {
   border-bottom: 1px solid var(--border);
 }
 
+footer {
+  flex: none;
+  display: flex;
+  border-top: 1px solid var(--border);
+  padding: var(--s-sm);
+  gap: var(--s-md);
+}
+
 .col {
   display: flex;
   flex-direction: column;
@@ -133,6 +141,27 @@ header {
   gap: var(--s-xs);
 }
 
+.btn {
+  border-radius: var(--s-sm);
+  border: 1px solid transparent;
+  padding: var(--s-sm) var(--s-md);
+  user-select: none;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  transition: background-color 0.25s;
+}
+
+.btn.btn-primary {
+  border-color: var(--primary);
+  background-color: var(--primary);
+}
+
+.btn.btn-secondary {
+  border-color: var(--primary);
+}
+
+
 .color-success {
   color: var(--primary);
 }
@@ -151,4 +180,8 @@ header {
 
 .subtle-md {
   color: oklch(from var(--fg) l c h / .25);
+}
+
+.grow {
+  flex-grow: 1;
 }

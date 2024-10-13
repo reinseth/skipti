@@ -4,8 +4,11 @@
             [clojure.walk :as walk]
             [m1p.core :as m1p]
             [replicant.dom :as replicant]
-            [skipti.edit-squad-view :as edit-squad :refer [prep-edit-squad-view EditSquadView]]
+            [skipti.edit-squad-view
+             :as edit-squad
+             :refer [EditSquadView prep-edit-squad-view]]
             [skipti.locale :refer [browser-languages normalize-langs]]
+            [skipti.match-view :as match :refer [MatchView prep-match-view]]
             [skipti.squad-view :as squad :refer [prep-squad-view SquadView]])
   (:import (goog.async Debouncer)))
 
@@ -27,14 +30,16 @@
 
 (def dictionaries
   (let [messages [squad/messages
-                  edit-squad/messages]]
+                  edit-squad/messages
+                  match/messages]]
     {:en (m1p/prepare-dictionary (map :en messages))
      :nb (m1p/prepare-dictionary (map :nb messages))}))
 
 (defn render-view [state]
   (case (:view state)
-    :squad (SquadView (prep-squad-view state))
-    :edit-squad (EditSquadView (prep-edit-squad-view state))))
+    :edit-squad (EditSquadView (prep-edit-squad-view state))
+    :match (MatchView (prep-match-view state))
+    (SquadView (prep-squad-view state))))
 
 (def supported-locales (set (keys dictionaries)))
 

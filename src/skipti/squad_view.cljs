@@ -7,6 +7,7 @@
    #:squad
    {:edit "Edit"
     :input.placeholder "Add player..."
+    :new-match "New match"
     :title "Squad"
     :title-selected [:fn/str "Squad ({{:n}})"]}
 
@@ -14,6 +15,7 @@
    #:squad
    {:edit "Rediger"
     :input.placeholder "Legg til spiller..."
+    :new-match "Ny kamp"
     :title "Tropp"
     :title-selected [:fn/str "Tropp ({{:n}})"]}})
 
@@ -21,6 +23,7 @@
                          edit-squad
                          empty-input?
                          input
+                         new-match
                          players
                          title]}]
   [:main
@@ -33,7 +36,12 @@
     [:form.new-player-form {:class (when-not empty-input? "filled")
                             :on {:submit add-player}}
      [:input.input input]
-     [:button {:type "submit"} (Icon :plus)]]]])
+     [:button {:type "submit"} (Icon :plus)]]]
+   (when new-match
+     [:footer
+      [:button.btn.btn-primary.grow {:on {:click new-match}}
+       [:span [:i18n :squad/new-match]]
+       (Icon :caret-right)]])])
 
 (defn prep-squad-view [state]
   (let [squad (into #{} (:squad/players state))
@@ -77,4 +85,9 @@
      :title
      (if (seq players)
        [:i18n :squad/title-selected {:n (count players)}]
-       [:i18n :squad/title])}))
+       [:i18n :squad/title])
+
+     :new-match
+     (when (seq players)
+       [[:assoc-in [:view] :match]
+        [:assoc-in [:match/events] []]])}))
