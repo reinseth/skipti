@@ -2,7 +2,8 @@
   (:require [phosphor.icons :as i]))
 
 (def icons
-  {:caret-left (i/icon :phosphor.regular/caret-left)
+  {:arrow-fat-right.fill (i/icon :phosphor.fill/arrow-fat-right)
+   :caret-left (i/icon :phosphor.regular/caret-left)
    :caret-right (i/icon :phosphor.regular/caret-right)
    :check-circle.fill (i/icon :phosphor.fill/check-circle)
    :circle (i/icon :phosphor.regular/circle)

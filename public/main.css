@@ -3,6 +3,7 @@
   --secondary: #5889df;
   --tertiary: #ad2e2c;
   --bg: #161B22;
+  --bg-alt: #22282f;
   --fg: #d2d7df;
   --border: #363c43;
   
@@ -51,6 +52,20 @@ footer {
   gap: var(--s-sm);
   flex-grow: 1;
   overflow: auto;
+}
+
+.col-soft {
+  background: var(--bg-alt);
+}
+
+.col + .col {
+  border-left: 1px solid var(--border);
+}
+
+.split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  flex-grow: 1;
 }
 
 .input {
