@@ -53,16 +53,35 @@
        x))
    action))
 
+(defn interpolate-action-data [action]
+  (walk/postwalk
+   (fn [x]
+     (case x
+       :current-time
+       (js/Date.now)
+
+       x))
+   action))
+
+(defn conj-v [coll x]
+  (if (vector? coll)
+    (conj coll x)
+    (conj (vec coll) x)))
+
 (defn handle-action [state action]
   (apply js/console.log action)
   (match action
     [:assoc-in ks v]
-    (assoc-in state ks v)))
+    (assoc-in state ks v)
+
+    [:conj-in-v ks v]
+    (update-in state ks conj-v v)))
 
 (defn handle-actions [actions]
   (swap! store (fn [state]
                  (->> actions
                       (filter identity)
+                      (map interpolate-action-data)
                       (reduce handle-action state)))))
 
 (defn handle-dom-event [{:replicant/keys [^js js-event]} actions]
