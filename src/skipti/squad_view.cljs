@@ -7,6 +7,7 @@
    #:squad
    {:edit "Edit"
     :input.placeholder "Add player..."
+    :match "Match"
     :new-match "New match"
     :title "Squad"
     :title-selected [:fn/str "Squad ({{:n}})"]}
@@ -15,11 +16,13 @@
    #:squad
    {:edit "Rediger"
     :input.placeholder "Legg til spiller..."
+    :match "Kamp"
     :new-match "Ny kamp"
     :title "Tropp"
     :title-selected [:fn/str "Tropp ({{:n}})"]}})
 
 (defn SquadView [{:keys [add-player
+                         back-to-match
                          edit-squad
                          empty-input?
                          input
@@ -37,11 +40,17 @@
                             :on {:submit add-player}}
      [:input.input input]
      [:button {:type "submit"} (Icon :plus)]]]
-   (when new-match
+   (when (or new-match back-to-match)
      [:footer
-      [:button.btn.btn-primary.grow {:on {:click new-match}}
-       [:span [:i18n :squad/new-match]]
-       (Icon :caret-right)]])])
+      (when new-match
+        [:button.btn {:class (if back-to-match "btn-secondary" "btn-primary grow")
+                      :on {:click new-match}}
+         [:span [:i18n :squad/new-match]]
+         (when-not back-to-match (Icon :caret-right))])
+      (when back-to-match
+        [:button.btn.btn-primary.grow {:on {:click back-to-match}}
+         [:span [:i18n :squad/match]]
+         (Icon :caret-right)])])])
 
 (defn prep-squad-view [state]
   (let [squad (into #{} (:squad/players state))
@@ -90,4 +99,8 @@
      :new-match
      (when (seq players)
        [[:assoc-in [:view] :match]
-        [:assoc-in [:match/events] []]])}))
+        [:assoc-in [:match/events] []]])
+
+     :back-to-match
+     (when (:match/events state)
+       [[:assoc-in [:view] :match]])}))
