@@ -1,6 +1,6 @@
 (ns skipti.match-view
   (:require [skipti.components :refer [Icon Pill]]
-            [skipti.playing-time :refer [format-time match-clock]]))
+            [skipti.playing-time :refer [format-time match-clock players-with-time]]))
 
 (def messages
   {:en
@@ -59,20 +59,24 @@
         paused? (= :stopped (second (last (event-map :match))))
         cur-time (:time state)]
     {:bench
-     (->> bench
-          (map (fn [player]
+     (->> (players-with-time events cur-time bench)
+          (sort-by second <)
+          (map (fn [[player mins]]
                  {:key player
                   :label player
+                  :caption mins
                   :icon {:name :arrow-fat-right.fill
                          :class :color-success}
                   :icon-pos :end
                   :on-click [[:conj-in-v [:match/events] [player :on :current-time]]]})))
 
      :pitch
-     (->> pitch
-          (map (fn [player]
+     (->> (players-with-time events cur-time pitch)
+          (sort-by second >)
+          (map (fn [[player mins]]
                  {:key player
                   :label player
+                  :caption mins
                   :icon {:name :arrow-fat-left.fill
                          :class :color-danger}
                   :on-click [[:conj-in-v [:match/events] [player :off :current-time]]]})))

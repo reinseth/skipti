@@ -33,7 +33,7 @@
           (update 1 merge (dissoc props :name :size :style)))
       (throw (js/Error. (str "Icon " name " has not been configured"))))))
 
-(defn Pill [{:keys [key label color icon icon-action icon-pos on-click]}]
+(defn Pill [{:keys [key label caption color icon icon-action icon-pos on-click]}]
   (let [icon-pos (or icon-pos :start)
         icon-el (when icon
                   [:div.pill-icon {:role (when icon-action "button")
@@ -60,5 +60,6 @@
      (when (= icon-pos :start)
        icon-el)
      [:span.pill-label label]
+     [:span.subtle caption]
      (when (= icon-pos :end)
        icon-el)]))
