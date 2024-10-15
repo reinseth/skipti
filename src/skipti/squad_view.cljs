@@ -9,8 +9,8 @@
     :input.placeholder "Add player..."
     :match "Match"
     :new-match "New match"
-    :title "Squad"
-    :title-selected [:fn/str "Squad ({{:n}})"]}
+    :title "Select team"
+    :title-selected [:fn/str "Select team ({{:n}})"]}
 
    :nb
    #:squad
@@ -18,8 +18,8 @@
     :input.placeholder "Legg til spiller..."
     :match "Kamp"
     :new-match "Ny kamp"
-    :title "Tropp"
-    :title-selected [:fn/str "Tropp ({{:n}})"]}})
+    :title "Velg lag"
+    :title-selected [:fn/str "Velg lag ({{:n}})"]}})
 
 (defn SquadView [{:keys [add-player
                          back-to-match
