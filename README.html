@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<title>README.html</title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+
+</head>
+
+<body>
+
+<h1>Skipti</h1>
+
+<p>This is a small and very simple app that aims help parents and coaches keep track of the substitutions
+and playing time in a game of chaos involving your small kids running around a football pitch (or other team games) where you're trying your best to keep track of whose on next, who has played too little, who has been playing a bit too long, and who was it that just came off?</p>
+
+<p>The app is local storage only, meaning no calls to apis. And state is continuously stored
+in the storage, meaning that it will never lose context if you accidentally navigate
+away from the app and back again (or if your screen idles and turns off, which seems to be enough
+for most apps nowadays to completely loose state and context leaving the user confused and annoyed).</p>
+
+<p>The word <a href="https://en.wiktionary.org/wiki/skipti">skipti</a> is from old norse, meaning change.</p>
+
+<h2>Technologies</h2>
+
+<p>This project is using the following technologies:</p>
+
+<ul>
+<li>ClojureScript <br />
+https://clojurescript.org/</li>
+<li>Shadow CLJS <br />
+https://github.com/thheller/shadow-cljs</li>
+<li>Replicant - DOM rendering <br />
+https://github.com/cjohansen/replicant</li>
+<li>m1p - i18n <br />
+https://github.com/cjohansen/m1p</li>
+<li>phosphor-clj - <a href="https://phosphoricons.com/">Phosphor icons</a> provided as hiccup <br />
+https://github.com/cjohansen/phosphor-clj/</li>
+</ul>
+
+<h2>Developing</h2>
+
+<p>Start the development server</p>
+
+<p><code>bash
+npx shadow-cljs watch app
+</code></p>
+
+<p>Run the tests</p>
+
+<p><code>
+npx shadow-cljs watch test
+</code></p>
+
+<p>Or both at the same time</p>
+
+<p><code>
+npx shadow-cljs watch app test
+</code></p>
+
+<p>If you are using Emacs then just jack in cljs and both app and tests will run.
+(the test output will be visible in the repl).</p>
+
+<p>The app is then available at http://localhost:9090</p>
+
+</body>
+</html>

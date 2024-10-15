@@ -30,19 +30,19 @@ This project is using the following technologies:
 Start the development server
 
 ```bash
-npmx shadow-cljs watch app
+npx shadow-cljs watch app
 ```
 
 Run the tests
 
 ```
-npmx shadow-cljs watch test
+npx shadow-cljs watch test
 ```
 
 Or both at the same time
 
 ```
-npmx shadow-cljs watch app test
+npx shadow-cljs watch app test
 ```
 
 If you are using Emacs then just jack in cljs and both app and tests will run.
