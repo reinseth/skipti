@@ -3,6 +3,7 @@
 
 (def icons
   {:arrow-fat-right.fill (i/icon :phosphor.fill/arrow-fat-right)
+   :arrow-fat-left.fill (i/icon :phosphor.fill/arrow-fat-left)
    :caret-left (i/icon :phosphor.regular/caret-left)
    :caret-right (i/icon :phosphor.regular/caret-right)
    :check-circle.fill (i/icon :phosphor.fill/check-circle)

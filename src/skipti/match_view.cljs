@@ -46,23 +46,34 @@
 (defn prep-match-view [state]
   (let [events (:match/events state [])
         event-map (group-by first events)
-        players (:match/players state)
+        players (sort (:match/players state))
+        pitch (filter (fn [player]
+                        (= :on (second (last (event-map player)))))
+                      players)
+        bench (remove (set pitch) players)
         started? (= :started (second (last (event-map :match))))
         paused? (= :stopped (second (last (event-map :match))))]
     {:bench
-     (->> (sort players)
+     (->> bench
           (map (fn [player]
                  {:key player
                   :label player
                   :icon {:name :arrow-fat-right.fill
                          :class :color-success}
-                  :icon-pos :end})))
-
-     :go-back
-     [[:assoc-in [:view] :squad]]
+                  :icon-pos :end
+                  :on-click [[:conj-in-v [:match/events] [player :on :current-time]]]})))
 
      :pitch
-     []
+     (->> pitch
+          (map (fn [player]
+                 {:key player
+                  :label player
+                  :icon {:name :arrow-fat-left.fill
+                         :class :color-danger}
+                  :on-click [[:conj-in-v [:match/events] [player :off :current-time]]]})))
+     
+     :go-back
+     [[:assoc-in [:view] :squad]]
 
      :toggle
      [[:conj-in-v [:match/events] [:match (if started? :stopped :started) :current-time]]]

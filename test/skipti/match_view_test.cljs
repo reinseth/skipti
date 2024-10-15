@@ -30,4 +30,17 @@
       (is (= (:toggle-label result)
              [:i18n :match/new-period]))
       (is (= (:toggle-variant result)
-             :btn-primary)))))
+             :btn-primary))))
+
+  (testing "on the bench and on the pitch"
+    (let [result (sut/prep-match-view {:match/players #{"Peter" "Paul" "Mary"}
+                                       :match/events [["Peter" :on 0]
+                                                      ["Paul" :on 0]
+                                                      ["Peter" :off 1]
+                                                      ["Mary" :on 2]
+                                                      ["Paul" :off 3]
+                                                      ["Peter" :on 4]]})]
+      (is (= (->> result :pitch (map :key))
+             ["Mary" "Peter"]))
+      (is (= (->> result :bench (map :key))
+             ["Paul"])))))
