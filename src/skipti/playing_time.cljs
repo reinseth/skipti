@@ -93,3 +93,15 @@
 
 (defn players-with-time [events cur-time players]
   (map (juxt identity #(mins (player-time events cur-time %))) players))
+
+(defn match-clock [events cur-time]
+  (let [i (last (->intervals events :match :started :stopped))]
+    (match i
+      [from to]
+      (- to from)
+
+      [from]
+      (- cur-time from)
+
+      :else
+      0)))

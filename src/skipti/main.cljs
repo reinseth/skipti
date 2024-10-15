@@ -111,5 +111,6 @@
                           (render state)
                           (write-to-local-storage-debounced state)))
   (replicant/set-dispatch! handle-dom-event)
+  (js/setInterval (fn [] (swap! store assoc :time (js/Date.now))) 1000)
   (render))
 

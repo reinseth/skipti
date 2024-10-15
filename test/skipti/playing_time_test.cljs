@@ -115,3 +115,17 @@
          "01:45"))
   (is (= (sut/format-time (* 61 60000))
          "61:00")))
+
+(deftest match-clock-test
+  (is (= (sut/match-clock [[:match :started 0]]
+                          40)
+         40))
+  (is (= (sut/match-clock [[:match :started 0]
+                           [:match :stopped 45]]
+                          50)
+         45))
+  (is (= (sut/match-clock [[:match :started 0]
+                           [:match :stopped 45]
+                           [:match :started 60]]
+                          75)
+         15)))

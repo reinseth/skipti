@@ -1,5 +1,6 @@
 (ns skipti.match-view
-  (:require [skipti.components :refer [Icon Pill]]))
+  (:require [skipti.components :refer [Icon Pill]]
+            [skipti.playing-time :refer [format-time match-clock]]))
 
 (def messages
   {:en
@@ -22,12 +23,15 @@
 
 (defn MatchView [{:keys [bench
                          go-back
+                         match-clock
                          pitch
                          toggle
                          toggle-label
                          toggle-variant]}]
   [:main
-   [:header [:i18n :match/title]]
+   [:header
+    [:h1 [:i18n :match/title]]
+    [:pre match-clock]]
    [:div.split
     [:section.col
      [:div [:i18n :match/bench]]
@@ -52,7 +56,8 @@
                       players)
         bench (remove (set pitch) players)
         started? (= :started (second (last (event-map :match))))
-        paused? (= :stopped (second (last (event-map :match))))]
+        paused? (= :stopped (second (last (event-map :match))))
+        cur-time (:time state)]
     {:bench
      (->> bench
           (map (fn [player]
@@ -90,4 +95,7 @@
        [:i18n :match/start])
 
      :toggle-variant
-     (if-not started? :btn-primary :btn-secondary)}))
+     (if-not started? :btn-primary :btn-secondary)
+
+     :match-clock
+     (format-time (match-clock events cur-time))}))
