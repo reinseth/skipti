@@ -2,7 +2,7 @@
 
 TLDR; App to track subsitutions in team sports
 
-![Screenshot](images/screenshot.png)
+<img src="images/screenshot.png" height="875" alt="Screenshot" />
 
 Live demo: https://reinseth.github.io/skipti
 
